@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FaceMarket</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green: #3B6D11; --green-light: #EAF3DE; --green-mid: #639922;
+  --text: #2C2C2A; --text-muted: #5F5E5A;
+  --bg: #fff; --bg2: #F1EFE8; --border: rgba(0,0,0,0.12); --r: 10px;
+}
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg2); color: var(--text); min-height: 100vh; padding-bottom: 84px; }
+
+nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position: sticky; top: 0; z-index: 100; }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 16px; height: 52px; }
+.logo { display: flex; align-items: center; gap: 7px; font-size: 15px; font-weight: 700; color: var(--green); text-decoration: none; }
+.logo svg { width: 22px; height: 22px; }
+.tabs { display: flex; gap: 4px; }
+.tab { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: var(--text-muted); }
+.tab.active { background: var(--green-light); color: var(--green); }
+
+.hcard { background: var(--green); border-radius: var(--r); padding: 16px; color: #fff; margin-bottom: 14px; }
+.hcard h1 { font-size: 17px; font-weight: 700; margin-bottom: 3px; }
+.hcard p { font-size: 13px; opacity: 0.82; }
+.week-row { display: flex; align-items: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.week-row label { font-size: 12px; opacity: 0.85; }
+.week-row input[type=text] { background: rgba(255,255,255,0.2); border: 0.5px solid rgba(255,255,255,0.35); border-radius: 6px; padding: 4px 8px; font-size: 13px; color: #fff; width: 108px; }
+.week-row input[type=text]::placeholder { color: rgba(255,255,255,0.5); }
+
+.cbar { display: flex; align-items: center; justify-content: space-between; background: var(--bg); border-radius: var(--r); padding: 11px 14px; margin-bottom: 12px; border: 0.5px solid var(--border); }
+.cbar span { font-size: 13px; color: var(--text-muted); }
+.cbar strong { color: var(--green); }
+.btn-clr { font-size: 12px; color: #A32D2D; background: none; border: none; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
+
+.cat-block { margin-bottom: 12px; }
+.cat-hdr { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg2); border-radius: 8px 8px 0 0; border: 0.5px solid var(--border); border-bottom: none; }
+.cat-hdr span { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+.cat-count { margin-left: auto; font-size: 11px; background: var(--green-light); color: var(--green); padding: 2px 7px; border-radius: 10px; font-weight: 700; }
+.cat-items { background: var(--bg); border: 0.5px solid var(--border); border-radius: 0 0 8px 8px; overflow: hidden; }
+
+.item-row { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 0.5px solid var(--border); -webkit-tap-highlight-color: transparent; }
+.item-row:last-child { border-bottom: none; }
+.item-row.chk { opacity: 0.42; }
+.item-row.chk .iname { text-decoration: line-through; }
+.icheck { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--border); background: var(--bg); flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.item-row.chk .icheck { background: var(--green); border-color: var(--green); }
+.icheck svg { display: none; }
+.item-row.chk .icheck svg { display: block; }
+.iname { font-size: 14px; font-weight: 500; flex: 1; cursor: pointer; min-width: 0; }
+.iqty-input { width: 90px; flex-shrink: 0; font-size: 12px; color: var(--text-muted); background: var(--bg2); border: 0.5px solid var(--border); border-radius: 6px; padding: 4px 7px; text-align: center; font-family: inherit; }
+.iqty-input:focus { outline: none; border-color: var(--green-mid); color: var(--text); background: var(--bg); }
+
+.abar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg); border-top: 0.5px solid var(--border); padding: 10px 16px; display: flex; gap: 10px; }
+.btn { flex: 1; padding: 13px; border-radius: var(--r); font-size: 14px; font-weight: 600; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.btn:active { opacity: 0.8; }
+.btn-wa { background: #25D366; color: #fff; }
+.btn-pr { background: var(--green-light); color: var(--green); }
+
+/* REFEIÇÕES — barra de dias única e fixa */
+.dias-fixos {
+  background: var(--bg);
+  border-radius: var(--r);
+  border: 0.5px solid var(--border);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+.dias-fixos p { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 10px; }
+.dias-bar { display: flex; gap: 6px; }
+.dia-btn { flex: 1; padding: 8px 4px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: 1px solid var(--border); background: var(--bg2); color: var(--text-muted); text-align: center; }
+.dia-btn.sel { background: var(--green); color: #fff; border-color: var(--green); }
+
+.ref-section { margin-bottom: 12px; }
+.ref-section-hdr { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--green); color: #fff; border-radius: 8px 8px 0 0; }
+.ref-section-hdr h2 { font-size: 14px; font-weight: 700; }
+.ref-count { margin-left: auto; font-size: 11px; background: rgba(255,255,255,0.25); padding: 2px 8px; border-radius: 10px; font-weight: 700; }
+.ref-items { background: var(--bg); border: 0.5px solid var(--border); border-top: none; border-radius: 0 0 8px 8px; overflow: hidden; }
+.ref-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 0.5px solid var(--border); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ref-item:last-child { border-bottom: none; }
+.ref-item:active { background: var(--bg2); }
+.dias-pills { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 3px; }
+.dia-pill { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 8px; background: var(--green-light); color: var(--green); }
+
+.gerar-btn { width: 100%; padding: 14px; background: var(--green); color: #fff; border: none; border-radius: var(--r); font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 14px; }
+.gerar-btn:active { opacity: 0.85; }
+
+@media print {
+  nav, .abar, .btn-clr, .week-row input, .gerar-btn, .dias-fixos { display: none !important; }
+  body { background: #fff; padding: 0; }
+  .item-row.chk { opacity: 1; }
+  .item-row.chk .iname { text-decoration: none; }
+  .iqty-input { border: none; background: transparent; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3h2l3.5 11h9L20 6H6"/><circle cx="9" cy="20" r="1.5" fill="currentColor" stroke="none"/><circle cx="17" cy="20" r="1.5" fill="currentColor" stroke="none"/>
+      </svg>
+      FaceMarket
+    </a>
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('compras',this)">Compras</button>
+      <button class="tab" onclick="showTab('refeicoes',this)">Refeições</button>
+    </div>
+  </div>
+</nav>
+
+<main style="padding:16px; max-width:600px; margin:0 auto;">
+
+<!-- TAB COMPRAS -->
+<div id="tab-compras">
+  <div class="hcard">
+    <h1>Lista de Supermercado</h1>
+    <p>Marque e ajuste as quantidades conforme necessário</p>
+    <div class="week-row">
+      <label>Semana de</label>
+      <input type="text" id="ini" placeholder="dd/mm" maxlength="5">
+      <label>a</label>
+      <input type="text" id="fim" placeholder="dd/mm" maxlength="5">
+    </div>
+  </div>
+  <div class="cbar">
+    <span><strong id="cc">0</strong> de <strong id="ct">0</strong> itens marcados</span>
+    <button class="btn-clr" onclick="clearAll()">Limpar tudo</button>
+  </div>
+  <div id="lista-container"></div>
+</div>
+
+<!-- TAB REFEIÇÕES -->
+<div id="tab-refeicoes" style="display:none">
+  <div class="hcard">
+    <h1>Refeições da Semana</h1>
+    <p>Escolha o dia e marque as refeições</p>
+    <div class="week-row">
+      <label>Semana de</label>
+      <input type="text" id="rini" placeholder="dd/mm" maxlength="5">
+      <label>a</label>
+      <input type="text" id="rfim" placeholder="dd/mm" maxlength="5">
+    </div>
+  </div>
+
+  <!-- BARRA DE DIAS ÚNICA -->
+  <div class="dias-fixos">
+    <p>Selecione o dia</p>
+    <div class="dias-bar" id="dias-bar"></div>
+  </div>
+
+  <button class="gerar-btn" onclick="gerarListaDeRefeicoes()">📋 Gerar lista de compras das refeições</button>
+  <div id="ref-container"></div>
+</div>
+
+</main>
+
+<div class="abar" id="abar-compras">
+  <button class="btn btn-pr" onclick="window.print()">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Imprimir
+  </button>
+  <button class="btn btn-wa" onclick="waCompras()">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.524 5.847L0 24l6.306-1.505A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.007-1.369l-.36-.214-3.732.891.934-3.617-.234-.372A9.818 9.818 0 0 1 2.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+    WhatsApp
+  </button>
+</div>
+
+<div class="abar" id="abar-refeicoes" style="display:none">
+  <button class="btn btn-pr" onclick="window.print()">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Imprimir
+  </button>
+  <button class="btn btn-wa" onclick="waRefeicoes()">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.524 5.847L0 24l6.306-1.505A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.007-1.369l-.36-.214-3.732.891.934-3.617-.234-.372A9.818 9.818 0 0 1 2.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+    WhatsApp
+  </button>
+</div>
+
+<script>
+const COMPRAS = [
+  { cat: "🌾 Mercearia", items: [
+    {n:"Aveia",q:"2 pacotes"},{n:"Arroz",q:"2 kg"},{n:"Feijão",q:"2 kg"},
+    {n:"Açúcar",q:"500 g"},{n:"Óleo",q:"2 litros"},{n:"Sal",q:"500 g"},
+    {n:"Macarrão",q:"1 pacote"},{n:"Farinha panko",q:"1 pacote"},
+    {n:"Pomarola",q:"2 latas"},{n:"Leite de coco",q:"1 unidade"},
+    {n:"Batata palha",q:"500 g"},{n:"Maisena",q:"1 caixa"},
+    {n:"Creme de leite",q:"2 latas"},{n:"Leite condensado",q:"2 latas"},
+    {n:"Canela",q:"1 unidade"},{n:"Orégano",q:"1 unidade"},
+    {n:"Azeite",q:"2 litros"},{n:"Leite",q:"2 litros"},
+    {n:"Farinha de trigo",q:"1 kg"},{n:"Massa para bolo",q:"2 unidades"},
+    {n:"Granulado",q:"1 unidade"},{n:"Biscoitos",q:"1 unidade"},
+  ]},
+  { cat: "☕ Café e snacks", items: [
+    {n:"Pó de café",q:"1 kg"},{n:"Filtro de café",q:"1 pacote fechado"},
+    {n:"Bananinha",q:"10 unidades"},{n:"Milho de pipoca",q:"500 g"},
+  ]},
+  { cat: "🧹 Limpeza", items: [
+    {n:"Papel toalha",q:"2 rolos"},{n:"Bucha de louça",q:"2 unidades"},
+    {n:"Detergente",q:"3 unidades"},{n:"Sabão lava-louça",q:"1 unidade"},
+    {n:"Amaciante",q:"1 litro"},{n:"Saco de lixo pequeno",q:"pacote de 30"},
+    {n:"Saco de lixo grande",q:"pacote de 30"},{n:"Papel alumínio",q:"1 pacote"},
+    {n:"Água sanitária Qboa",q:"1 litro fechado"},{n:"Veja",q:"2 unidades"},
+    {n:"Desinfetante",q:"2 unidades"},{n:"Pato limpeza vaso",q:"1 unidade"},
+  ]},
+  { cat: "🧴 Higiene", items: [
+    {n:"Desodorante",q:"2 unidades"},{n:"Creme dental",q:"3 unidades"},
+    {n:"Sabonete líquido",q:"1 litro fechado"},{n:"Creme de cabelo",q:"1 unidade"},
+    {n:"Papel higiênico",q:"10 unidades fechadas"},{n:"Fio dental",q:"2 unidades"},
+    {n:"Shampoo",q:"2 unidades"},{n:"Condicionador",q:"2 unidades"},
+    {n:"Shampoo infantil",q:"2 unidades"},{n:"Condicionador infantil",q:"2 unidades"},
+    {n:"Sabonete líquido infantil",q:"2 unidades"},
+  ]},
+  { cat: "🥚 Frios e laticínios", items: [
+    {n:"Pão forma integral",q:"1 pacote"},{n:"Cuscuz",q:"2 pacotes"},
+    {n:"Tapioca",q:"2 pacotes"},{n:"Polvilho doce",q:"1 pacote"},
+    {n:"Ovos",q:"20 unidades"},{n:"Queijo minas",q:"1 unidade fechada"},
+    {n:"Mussarela",q:"500 g"},{n:"Palmito",q:"500 g"},
+    {n:"Queijo parmesão ralado",q:"200 g"},{n:"Presunto",q:"300 g"},
+    {n:"Manteiga",q:"1 unidade cheia"},{n:"Requeijão",q:"1 unidade"},
+  ]},
+  { cat: "🥩 Carnes", items: [
+    {n:"Carne moída",q:"2 kg em 4 pacotes"},{n:"Filé suíno",q:"2 kg em 4 pacotes"},
+    {n:"Peito de frango",q:"2 kg em 4 pacotes"},{n:"Filé mignon",q:"2 kg em 4 pacotes"},
+    {n:"Músculo",q:"1 kg"},
+  ]},
+  { cat: "🥦 Hortifruti", items: [
+    {n:"Abóbora",q:"1 unidade"},{n:"Couve-flor",q:"1 unidade"},
+    {n:"Brócolis",q:"1 unidade"},{n:"Batata-doce",q:"3 unidades"},
+    {n:"Tomate grande",q:"3 unidades"},{n:"Tomate cereja",q:"1 pacote"},
+    {n:"Alface",q:"1 unidade"},{n:"Cenoura",q:"3 unidades"},
+    {n:"Beterraba",q:"2 unidades"},
+  ]},
+  { cat: "🍎 Frutas", items: [
+    {n:"Manga",q:"3 unidades"},{n:"Mamão",q:"3 unidades"},
+    {n:"Maçã",q:"4 unidades"},{n:"Uva",q:"2 cachos"},
+    {n:"Ameixa",q:"4 unidades"},{n:"Morango",q:"2 pratos"},
+    {n:"Pêra",q:"4 unidades"},{n:"Cereja",q:"1 pacote"},
+    {n:"Banana",q:"6 unidades"},{n:"Abacate",q:"2 unidades"},
+  ]},
+];
+
+const DIAS = ["Seg","Ter","Qua","Qui","Sex","Sáb"];
+const REFEICOES = [
+  { ref: "☀️ Café da manhã", items: [
+    "Panquequinha","Pão forma integral","Cuscuz","Tapioca",
+    "Ovos mexidos com queijo","Ovos mexidos com queijo e presunto",
+    "Manga","Mamão","Maçã","Uva","Ameixa","Morango","Pêra","Cereja","Banana","Abacate"
+  ]},
+  { ref: "🍽️ Almoço", items: [
+    "Arroz","Feijão","Macarrão","Strogonoff de peito de frango",
+    "Carne moída","Filé suíno","Peito de frango","Filé mignon","Músculo",
+    "Abóbora","Couve-flor","Brócolis","Batata-doce","Alface","Cenoura","Beterraba",
+    "Manga","Mamão","Maçã","Uva","Ameixa","Morango","Pêra","Cereja","Banana"
+  ]},
+  { ref: "🌙 Jantar", items: [
+    "Arroz","Feijão","Macarrão","Strogonoff de peito de frango",
+    "Carne moída","Filé suíno","Peito de frango","Filé mignon","Músculo",
+    "Abóbora","Couve-flor","Brócolis","Batata-doce","Alface","Cenoura","Beterraba",
+    "Manga","Mamão","Maçã","Uva","Ameixa","Morango","Pêra","Cereja","Banana","Abacate"
+  ]},
+];
+
+const checked = new Set();
+const qtys = {};
+// refSel[ri][ii] = Set de dias marcados
+const refSel = REFEICOES.map(r => r.items.map(() => new Set()));
+let diaAtivo = 0; // dia único compartilhado por todas as refeições
+
+function getQty(ci, ii) {
+  const k = `${ci}-${ii}`;
+  return qtys[k] !== undefined ? qtys[k] : COMPRAS[ci].items[ii].q;
+}
+
+/* ── COMPRAS ── */
+function renderCompras() {
+  const c = document.getElementById('lista-container');
+  c.innerHTML = '';
+  let total = 0;
+  COMPRAS.forEach((cat, ci) => {
+    total += cat.items.length;
+    const marcados = cat.items.filter((_,ii) => checked.has(`${ci}-${ii}`)).length;
+    const blk = document.createElement('div'); blk.className = 'cat-block';
+    blk.innerHTML = `<div class="cat-hdr"><span>${cat.cat}</span><span class="cat-count">${marcados}/${cat.items.length}</span></div>`;
+    const itens = document.createElement('div'); itens.className = 'cat-items';
+    cat.items.forEach((item, ii) => {
+      const k = `${ci}-${ii}`;
+      const isChk = checked.has(k);
+      const row = document.createElement('div');
+      row.className = 'item-row' + (isChk ? ' chk' : '');
+      row.innerHTML = `
+        <div class="icheck" data-k="${k}">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="iname" data-k="${k}">${item.n}</div>
+        <input class="iqty-input" type="text" value="${getQty(ci,ii)}" placeholder="qtd">
+      `;
+      row.querySelector('.icheck').onclick = () => toggle(k);
+      row.querySelector('.iname').onclick  = () => toggle(k);
+      row.querySelector('.iqty-input').oninput = (e) => { qtys[k] = e.target.value; };
+      row.querySelector('.iqty-input').onclick  = (e) => e.stopPropagation();
+      itens.appendChild(row);
+    });
+    blk.appendChild(itens); c.appendChild(blk);
+  });
+  document.getElementById('cc').textContent = checked.size;
+  document.getElementById('ct').textContent = total;
+}
+
+function toggle(k) {
+  checked.has(k) ? checked.delete(k) : checked.add(k);
+  renderCompras();
+}
+
+function clearAll() {
+  if (!checked.size) return;
+  if (confirm('Limpar todos os itens marcados?')) { checked.clear(); renderCompras(); }
+}
+
+/* ── REFEIÇÕES ── */
+function renderDias() {
+  const bar = document.getElementById('dias-bar');
+  bar.innerHTML = '';
+  DIAS.forEach((d, di) => {
+    const btn = document.createElement('button');
+    btn.className = 'dia-btn' + (diaAtivo === di ? ' sel' : '');
+    btn.textContent = d;
+    btn.onclick = () => { diaAtivo = di; renderDias(); renderRefeicoes(); };
+    bar.appendChild(btn);
+  });
+}
+
+function renderRefeicoes() {
+  const c = document.getElementById('ref-container');
+  c.innerHTML = '';
+  REFEICOES.forEach((sec, ri) => {
+    const totalMarcados = refSel[ri].reduce((a,s) => a + s.size, 0);
+    const blk = document.createElement('div'); blk.className = 'ref-section';
+    blk.innerHTML = `<div class="ref-section-hdr"><h2>${sec.ref}</h2><span class="ref-count">${totalMarcados} marcações</span></div>`;
+    const itensDiv = document.createElement('div'); itensDiv.className = 'ref-items';
+    sec.items.forEach((item, ii) => {
+      const sel = refSel[ri][ii];
+      const marcado = sel.has(diaAtivo);
+      const pillsHtml = [...sel].sort((a,b)=>a-b).map(di => `<span class="dia-pill">${DIAS[di]}</span>`).join('');
+      const row = document.createElement('div'); row.className = 'ref-item';
+      row.innerHTML = `
+        <div class="icheck" style="${marcado ? 'background:var(--green);border-color:var(--green)' : ''}">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:${marcado?'block':'none'}"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div style="flex:1">
+          <div class="iname">${item}</div>
+          ${pillsHtml ? `<div class="dias-pills">${pillsHtml}</div>` : ''}
+        </div>`;
+      row.onclick = () => { sel.has(diaAtivo) ? sel.delete(diaAtivo) : sel.add(diaAtivo); renderRefeicoes(); };
+      itensDiv.appendChild(row);
+    });
+    blk.appendChild(itensDiv);
+    c.appendChild(blk);
+  });
+}
+
+function gerarListaDeRefeicoes() {
+  const itensNecessarios = new Set();
+  REFEICOES.forEach((sec, ri) => {
+    sec.items.forEach((item, ii) => {
+      if (refSel[ri][ii].size > 0) itensNecessarios.add(item.toLowerCase());
+    });
+  });
+  if (!itensNecessarios.size) { alert('Marque pelo menos um item nas refeições primeiro.'); return; }
+  let marcados = 0;
+  COMPRAS.forEach((cat, ci) => {
+    cat.items.forEach((item, ii) => {
+      if (itensNecessarios.has(item.n.toLowerCase())) { checked.add(`${ci}-${ii}`); marcados++; }
+    });
+  });
+  showTab('compras', document.querySelectorAll('.tab')[0]);
+  alert(`${marcados} itens adicionados à lista de compras!`);
+}
+
+/* ── WHATSAPP ── */
+function waCompras() {
+  const ini = document.getElementById('ini').value;
+  const fim = document.getElementById('fim').value;
+  const sem = ini && fim ? `Semana de ${ini} a ${fim}\n` : '';
+  let msg = `🛒 *Lista de Supermercado — FaceMarket*\n${sem}\n`;
+  COMPRAS.forEach((cat, ci) => {
+    const marc = cat.items.filter((_,ii) => checked.has(`${ci}-${ii}`));
+    if (!marc.length) return;
+    msg += `\n*${cat.cat}*\n`;
+    marc.forEach((it) => {
+      const ii = cat.items.indexOf(it);
+      msg += `☐ ${it.n} — ${getQty(ci,ii)}\n`;
+    });
+  });
+  if (!checked.size) msg += '\n_(Nenhum item marcado)_';
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+
+function waRefeicoes() {
+  const ini = document.getElementById('rini').value;
+  const fim = document.getElementById('rfim').value;
+  const sem = ini && fim ? `Semana de ${ini} a ${fim}\n` : '';
+  let msg = `🍽️ *Refeições da Semana — FaceMarket*\n${sem}\n`;
+  DIAS.forEach((dia, di) => {
+    const temAlgo = REFEICOES.some((sec, ri) => sec.items.some((_,ii) => refSel[ri][ii].has(di)));
+    if (!temAlgo) return;
+    msg += `\n📅 *${dia}*\n`;
+    REFEICOES.forEach((sec, ri) => {
+      const itens = sec.items.filter((_,ii) => refSel[ri][ii].has(di));
+      if (!itens.length) return;
+      msg += `${sec.ref}: ${itens.join(', ')}\n`;
+    });
+  });
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+
+/* ── TABS ── */
+function showTab(tab, btn) {
+  document.getElementById('tab-compras').style.display    = tab==='compras'    ? '' : 'none';
+  document.getElementById('tab-refeicoes').style.display  = tab==='refeicoes'  ? '' : 'none';
+  document.getElementById('abar-compras').style.display   = tab==='compras'    ? '' : 'none';
+  document.getElementById('abar-refeicoes').style.display = tab==='refeicoes'  ? '' : 'none';
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab')[tab==='compras'?0:1].classList.add('active');
+  if (tab==='compras') renderCompras();
+}
+
+/* INIT */
+renderCompras();
+renderDias();
+renderRefeicoes();
+</script>
+</body>
+</html>
