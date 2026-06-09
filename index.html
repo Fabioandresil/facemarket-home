@@ -13,7 +13,6 @@
 }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg2); color: var(--text); min-height: 100vh; padding-bottom: 84px; }
 
-/* NAV */
 nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position: sticky; top: 0; z-index: 100; }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 16px; height: 52px; }
 .logo { display: flex; align-items: center; gap: 7px; font-size: 15px; font-weight: 700; color: var(--green); text-decoration: none; }
@@ -22,80 +21,76 @@ nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position:
 .tab { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: var(--text-muted); }
 .tab.active { background: var(--green-light); color: var(--green); }
 
-/* HEADER CARD */
 .hcard { background: var(--green); border-radius: var(--r); padding: 16px; color: #fff; margin-bottom: 14px; }
 .hcard h1 { font-size: 17px; font-weight: 700; margin-bottom: 3px; }
 .hcard p { font-size: 13px; opacity: 0.82; }
 .week-row { display: flex; align-items: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
 .week-row label { font-size: 12px; opacity: 0.85; }
-.week-row input { background: rgba(255,255,255,0.2); border: 0.5px solid rgba(255,255,255,0.35); border-radius: 6px; padding: 4px 8px; font-size: 13px; color: #fff; width: 108px; }
-.week-row input::placeholder { color: rgba(255,255,255,0.5); }
+.week-row input[type=text] { background: rgba(255,255,255,0.2); border: 0.5px solid rgba(255,255,255,0.35); border-radius: 6px; padding: 4px 8px; font-size: 13px; color: #fff; width: 108px; }
+.week-row input[type=text]::placeholder { color: rgba(255,255,255,0.5); }
 
-/* COUNTER BAR */
 .cbar { display: flex; align-items: center; justify-content: space-between; background: var(--bg); border-radius: var(--r); padding: 11px 14px; margin-bottom: 12px; border: 0.5px solid var(--border); }
 .cbar span { font-size: 13px; color: var(--text-muted); }
 .cbar strong { color: var(--green); }
 .btn-clr { font-size: 12px; color: #A32D2D; background: none; border: none; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
 
-/* CATEGORY */
 .cat-block { margin-bottom: 12px; }
 .cat-hdr { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg2); border-radius: 8px 8px 0 0; border: 0.5px solid var(--border); border-bottom: none; }
 .cat-hdr span { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; }
 .cat-count { margin-left: auto; font-size: 11px; background: var(--green-light); color: var(--green); padding: 2px 7px; border-radius: 10px; font-weight: 700; }
 .cat-items { background: var(--bg); border: 0.5px solid var(--border); border-radius: 0 0 8px 8px; overflow: hidden; }
-.item-row { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-bottom: 0.5px solid var(--border); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+
+.item-row { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 0.5px solid var(--border); -webkit-tap-highlight-color: transparent; }
 .item-row:last-child { border-bottom: none; }
-.item-row:active { background: var(--bg2); }
 .item-row.chk { opacity: 0.42; }
 .item-row.chk .iname { text-decoration: line-through; }
-.icheck { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--border); background: var(--bg); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.icheck { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--border); background: var(--bg); flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .item-row.chk .icheck { background: var(--green); border-color: var(--green); }
 .icheck svg { display: none; }
 .item-row.chk .icheck svg { display: block; }
-.iinfo { flex: 1; min-width: 0; }
-.iname { font-size: 14px; font-weight: 500; }
-.iqty { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+.iname { font-size: 14px; font-weight: 500; flex: 1; cursor: pointer; min-width: 0; }
+.iqty-input { width: 90px; flex-shrink: 0; font-size: 12px; color: var(--text-muted); background: var(--bg2); border: 0.5px solid var(--border); border-radius: 6px; padding: 4px 7px; text-align: center; font-family: inherit; }
+.iqty-input:focus { outline: none; border-color: var(--green-mid); color: var(--text); background: var(--bg); }
 
-/* ACTION BAR */
 .abar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg); border-top: 0.5px solid var(--border); padding: 10px 16px; display: flex; gap: 10px; }
 .btn { flex: 1; padding: 13px; border-radius: var(--r); font-size: 14px; font-weight: 600; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .btn:active { opacity: 0.8; }
 .btn-wa { background: #25D366; color: #fff; }
 .btn-pr { background: var(--green-light); color: var(--green); }
 
-/* ── REFEIÇÕES ── */
-.ref-section { margin-bottom: 16px; }
-.ref-section-hdr { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--green); color: #fff; border-radius: 8px 8px 0 0; }
-.ref-section-hdr h2 { font-size: 14px; font-weight: 700; }
-.ref-section-hdr .ref-count { margin-left: auto; font-size: 11px; background: rgba(255,255,255,0.25); padding: 2px 8px; border-radius: 10px; font-weight: 700; }
-
-/* DIAS SCROLL */
-.dias-bar { display: flex; gap: 6px; overflow-x: auto; padding: 10px 14px; background: var(--bg); border-left: 0.5px solid var(--border); border-right: 0.5px solid var(--border); scrollbar-width: none; }
-.dias-bar::-webkit-scrollbar { display: none; }
-.dia-btn { flex-shrink: 0; padding: 5px 13px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--bg2); color: var(--text-muted); }
+/* REFEIÇÕES — barra de dias única e fixa */
+.dias-fixos {
+  background: var(--bg);
+  border-radius: var(--r);
+  border: 0.5px solid var(--border);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+.dias-fixos p { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 10px; }
+.dias-bar { display: flex; gap: 6px; }
+.dia-btn { flex: 1; padding: 8px 4px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: 1px solid var(--border); background: var(--bg2); color: var(--text-muted); text-align: center; }
 .dia-btn.sel { background: var(--green); color: #fff; border-color: var(--green); }
 
-/* REF ITEMS */
+.ref-section { margin-bottom: 12px; }
+.ref-section-hdr { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--green); color: #fff; border-radius: 8px 8px 0 0; }
+.ref-section-hdr h2 { font-size: 14px; font-weight: 700; }
+.ref-count { margin-left: auto; font-size: 11px; background: rgba(255,255,255,0.25); padding: 2px 8px; border-radius: 10px; font-weight: 700; }
 .ref-items { background: var(--bg); border: 0.5px solid var(--border); border-top: none; border-radius: 0 0 8px 8px; overflow: hidden; }
 .ref-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 0.5px solid var(--border); cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .ref-item:last-child { border-bottom: none; }
 .ref-item:active { background: var(--bg2); }
-.ref-item .iname { font-size: 14px; font-weight: 500; flex: 1; }
-
-/* Dias marcados pills */
-.dias-pills { display: flex; gap: 4px; flex-wrap: wrap; }
+.dias-pills { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 3px; }
 .dia-pill { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 8px; background: var(--green-light); color: var(--green); }
 
-/* GERAR LISTA BTN */
 .gerar-btn { width: 100%; padding: 14px; background: var(--green); color: #fff; border: none; border-radius: var(--r); font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 14px; }
 .gerar-btn:active { opacity: 0.85; }
 
-/* PRINT */
 @media print {
-  nav, .abar, .btn-clr, .week-row input, .gerar-btn, .dias-bar { display: none !important; }
+  nav, .abar, .btn-clr, .week-row input, .gerar-btn, .dias-fixos { display: none !important; }
   body { background: #fff; padding: 0; }
-  .item-row.chk, .ref-item { opacity: 1; }
+  .item-row.chk { opacity: 1; }
   .item-row.chk .iname { text-decoration: none; }
+  .iqty-input { border: none; background: transparent; }
 }
 </style>
 </head>
@@ -118,11 +113,11 @@ nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position:
 
 <main style="padding:16px; max-width:600px; margin:0 auto;">
 
-<!-- ═══ TAB COMPRAS ═══ -->
+<!-- TAB COMPRAS -->
 <div id="tab-compras">
   <div class="hcard">
     <h1>Lista de Supermercado</h1>
-    <p>Marque o que precisa comprar esta semana</p>
+    <p>Marque e ajuste as quantidades conforme necessário</p>
     <div class="week-row">
       <label>Semana de</label>
       <input type="text" id="ini" placeholder="dd/mm" maxlength="5">
@@ -137,11 +132,11 @@ nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position:
   <div id="lista-container"></div>
 </div>
 
-<!-- ═══ TAB REFEIÇÕES ═══ -->
+<!-- TAB REFEIÇÕES -->
 <div id="tab-refeicoes" style="display:none">
   <div class="hcard">
     <h1>Refeições da Semana</h1>
-    <p>Marque o que será servido em cada dia</p>
+    <p>Escolha o dia e marque as refeições</p>
     <div class="week-row">
       <label>Semana de</label>
       <input type="text" id="rini" placeholder="dd/mm" maxlength="5">
@@ -149,13 +144,19 @@ nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position:
       <input type="text" id="rfim" placeholder="dd/mm" maxlength="5">
     </div>
   </div>
+
+  <!-- BARRA DE DIAS ÚNICA -->
+  <div class="dias-fixos">
+    <p>Selecione o dia</p>
+    <div class="dias-bar" id="dias-bar"></div>
+  </div>
+
   <button class="gerar-btn" onclick="gerarListaDeRefeicoes()">📋 Gerar lista de compras das refeições</button>
   <div id="ref-container"></div>
 </div>
 
 </main>
 
-<!-- ACTION BAR COMPRAS -->
 <div class="abar" id="abar-compras">
   <button class="btn btn-pr" onclick="window.print()">
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
@@ -167,7 +168,6 @@ nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position:
   </button>
 </div>
 
-<!-- ACTION BAR REFEIÇÕES -->
 <div class="abar" id="abar-refeicoes" style="display:none">
   <button class="btn btn-pr" onclick="window.print()">
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
@@ -180,9 +180,6 @@ nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position:
 </div>
 
 <script>
-/* ══════════════════════════════════
-   DADOS — LISTA DE COMPRAS
-══════════════════════════════════ */
 const COMPRAS = [
   { cat: "🌾 Mercearia", items: [
     {n:"Aveia",q:"2 pacotes"},{n:"Arroz",q:"2 kg"},{n:"Feijão",q:"2 kg"},
@@ -230,26 +227,22 @@ const COMPRAS = [
     {n:"Músculo",q:"1 kg"},
   ]},
   { cat: "🥦 Hortifruti", items: [
-    {n:"Abóbora",q:"1 unidade (3 dias)"},{n:"Couve-flor",q:"1 unidade (3 dias)"},
-    {n:"Brócolis",q:"1 unidade (3 dias)"},{n:"Batata-doce",q:"3 unidades (3 dias)"},
-    {n:"Tomate grande",q:"3 unidades (3 dias)"},{n:"Tomate cereja",q:"1 pacote (1 semana)"},
-    {n:"Alface",q:"1 unidade (3 dias)"},{n:"Cenoura",q:"3 unidades (3 dias)"},
-    {n:"Beterraba",q:"2 unidades (6 dias)"},
+    {n:"Abóbora",q:"1 unidade"},{n:"Couve-flor",q:"1 unidade"},
+    {n:"Brócolis",q:"1 unidade"},{n:"Batata-doce",q:"3 unidades"},
+    {n:"Tomate grande",q:"3 unidades"},{n:"Tomate cereja",q:"1 pacote"},
+    {n:"Alface",q:"1 unidade"},{n:"Cenoura",q:"3 unidades"},
+    {n:"Beterraba",q:"2 unidades"},
   ]},
   { cat: "🍎 Frutas", items: [
-    {n:"Manga",q:"3 unidades (3 dias)"},{n:"Mamão",q:"3 unidades (3 dias)"},
-    {n:"Maçã",q:"4 unidades (3 dias)"},{n:"Uva",q:"2 cachos (3 dias)"},
-    {n:"Ameixa",q:"4 unidades (3 dias)"},{n:"Morango",q:"2 pratos (3 dias)"},
-    {n:"Pêra",q:"4 unidades (3 dias)"},{n:"Cereja",q:"1 pacote (3 dias)"},
-    {n:"Banana",q:"6 unidades (3 dias)"},{n:"Abacate",q:"2 unidades (6 dias)"},
+    {n:"Manga",q:"3 unidades"},{n:"Mamão",q:"3 unidades"},
+    {n:"Maçã",q:"4 unidades"},{n:"Uva",q:"2 cachos"},
+    {n:"Ameixa",q:"4 unidades"},{n:"Morango",q:"2 pratos"},
+    {n:"Pêra",q:"4 unidades"},{n:"Cereja",q:"1 pacote"},
+    {n:"Banana",q:"6 unidades"},{n:"Abacate",q:"2 unidades"},
   ]},
 ];
 
-/* ══════════════════════════════════
-   DADOS — REFEIÇÕES
-══════════════════════════════════ */
 const DIAS = ["Seg","Ter","Qua","Qui","Sex","Sáb"];
-
 const REFEICOES = [
   { ref: "☀️ Café da manhã", items: [
     "Panquequinha","Pão forma integral","Cuscuz","Tapioca",
@@ -270,18 +263,18 @@ const REFEICOES = [
   ]},
 ];
 
-/* ══════════════════════════════════
-   STATE
-══════════════════════════════════ */
 const checked = new Set();
-// refSel[ri][ii] = Set de dias (0-5) marcados
+const qtys = {};
+// refSel[ri][ii] = Set de dias marcados
 const refSel = REFEICOES.map(r => r.items.map(() => new Set()));
-// dia selecionado por seção de refeição
-const diaAtivo = REFEICOES.map(() => 0);
+let diaAtivo = 0; // dia único compartilhado por todas as refeições
 
-/* ══════════════════════════════════
-   COMPRAS — RENDER
-══════════════════════════════════ */
+function getQty(ci, ii) {
+  const k = `${ci}-${ii}`;
+  return qtys[k] !== undefined ? qtys[k] : COMPRAS[ci].items[ii].q;
+}
+
+/* ── COMPRAS ── */
 function renderCompras() {
   const c = document.getElementById('lista-container');
   c.innerHTML = '';
@@ -294,10 +287,20 @@ function renderCompras() {
     const itens = document.createElement('div'); itens.className = 'cat-items';
     cat.items.forEach((item, ii) => {
       const k = `${ci}-${ii}`;
+      const isChk = checked.has(k);
       const row = document.createElement('div');
-      row.className = 'item-row' + (checked.has(k) ? ' chk' : '');
-      row.innerHTML = `<div class="icheck"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="iinfo"><div class="iname">${item.n}</div><div class="iqty">${item.q}</div></div>`;
-      row.onclick = () => { checked.has(k) ? checked.delete(k) : checked.add(k); renderCompras(); };
+      row.className = 'item-row' + (isChk ? ' chk' : '');
+      row.innerHTML = `
+        <div class="icheck" data-k="${k}">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="iname" data-k="${k}">${item.n}</div>
+        <input class="iqty-input" type="text" value="${getQty(ci,ii)}" placeholder="qtd">
+      `;
+      row.querySelector('.icheck').onclick = () => toggle(k);
+      row.querySelector('.iname').onclick  = () => toggle(k);
+      row.querySelector('.iqty-input').oninput = (e) => { qtys[k] = e.target.value; };
+      row.querySelector('.iqty-input').onclick  = (e) => e.stopPropagation();
       itens.appendChild(row);
     });
     blk.appendChild(itens); c.appendChild(blk);
@@ -306,56 +309,51 @@ function renderCompras() {
   document.getElementById('ct').textContent = total;
 }
 
+function toggle(k) {
+  checked.has(k) ? checked.delete(k) : checked.add(k);
+  renderCompras();
+}
+
 function clearAll() {
   if (!checked.size) return;
   if (confirm('Limpar todos os itens marcados?')) { checked.clear(); renderCompras(); }
 }
 
-/* ══════════════════════════════════
-   REFEIÇÕES — RENDER
-══════════════════════════════════ */
+/* ── REFEIÇÕES ── */
+function renderDias() {
+  const bar = document.getElementById('dias-bar');
+  bar.innerHTML = '';
+  DIAS.forEach((d, di) => {
+    const btn = document.createElement('button');
+    btn.className = 'dia-btn' + (diaAtivo === di ? ' sel' : '');
+    btn.textContent = d;
+    btn.onclick = () => { diaAtivo = di; renderDias(); renderRefeicoes(); };
+    bar.appendChild(btn);
+  });
+}
+
 function renderRefeicoes() {
   const c = document.getElementById('ref-container');
   c.innerHTML = '';
   REFEICOES.forEach((sec, ri) => {
     const totalMarcados = refSel[ri].reduce((a,s) => a + s.size, 0);
     const blk = document.createElement('div'); blk.className = 'ref-section';
-
-    // Header
     blk.innerHTML = `<div class="ref-section-hdr"><h2>${sec.ref}</h2><span class="ref-count">${totalMarcados} marcações</span></div>`;
-
-    // Barra de dias
-    const diasBar = document.createElement('div'); diasBar.className = 'dias-bar';
-    DIAS.forEach((d, di) => {
-      const btn = document.createElement('button');
-      btn.className = 'dia-btn' + (diaAtivo[ri] === di ? ' sel' : '');
-      btn.textContent = d;
-      btn.onclick = () => { diaAtivo[ri] = di; renderRefeicoes(); };
-      diasBar.appendChild(btn);
-    });
-    blk.appendChild(diasBar);
-
-    // Itens
     const itensDiv = document.createElement('div'); itensDiv.className = 'ref-items';
     sec.items.forEach((item, ii) => {
       const sel = refSel[ri][ii];
-      const d = diaAtivo[ri];
-      const marcado = sel.has(d);
+      const marcado = sel.has(diaAtivo);
+      const pillsHtml = [...sel].sort((a,b)=>a-b).map(di => `<span class="dia-pill">${DIAS[di]}</span>`).join('');
       const row = document.createElement('div'); row.className = 'ref-item';
-
-      // Pills dos outros dias
-      const outrosDias = DIAS.filter((_,di) => sel.has(di) && di !== d).map(d => `<span class="dia-pill">${d}</span>`).join('');
-      const pillsHtml = [...sel].map(di => `<span class="dia-pill">${DIAS[di]}</span>`).join('');
-
       row.innerHTML = `
         <div class="icheck" style="${marcado ? 'background:var(--green);border-color:var(--green)' : ''}">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:${marcado?'block':'none'}"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
-        <div class="iinfo">
+        <div style="flex:1">
           <div class="iname">${item}</div>
-          ${pillsHtml ? `<div class="dias-pills" style="margin-top:3px">${pillsHtml}</div>` : ''}
+          ${pillsHtml ? `<div class="dias-pills">${pillsHtml}</div>` : ''}
         </div>`;
-      row.onclick = () => { sel.has(d) ? sel.delete(d) : sel.add(d); renderRefeicoes(); };
+      row.onclick = () => { sel.has(diaAtivo) ? sel.delete(diaAtivo) : sel.add(diaAtivo); renderRefeicoes(); };
       itensDiv.appendChild(row);
     });
     blk.appendChild(itensDiv);
@@ -363,9 +361,6 @@ function renderRefeicoes() {
   });
 }
 
-/* ══════════════════════════════════
-   GERAR LISTA DE COMPRAS DAS REFEIÇÕES
-══════════════════════════════════ */
 function gerarListaDeRefeicoes() {
   const itensNecessarios = new Set();
   REFEICOES.forEach((sec, ri) => {
@@ -373,24 +368,18 @@ function gerarListaDeRefeicoes() {
       if (refSel[ri][ii].size > 0) itensNecessarios.add(item.toLowerCase());
     });
   });
-  if (itensNecessarios.size === 0) { alert('Marque pelo menos um item nas refeições primeiro.'); return; }
-
+  if (!itensNecessarios.size) { alert('Marque pelo menos um item nas refeições primeiro.'); return; }
   let marcados = 0;
   COMPRAS.forEach((cat, ci) => {
     cat.items.forEach((item, ii) => {
-      if (itensNecessarios.has(item.n.toLowerCase())) {
-        checked.add(`${ci}-${ii}`);
-        marcados++;
-      }
+      if (itensNecessarios.has(item.n.toLowerCase())) { checked.add(`${ci}-${ii}`); marcados++; }
     });
   });
-  showTab('compras', document.querySelector('.tab'));
+  showTab('compras', document.querySelectorAll('.tab')[0]);
   alert(`${marcados} itens adicionados à lista de compras!`);
 }
 
-/* ══════════════════════════════════
-   WHATSAPP
-══════════════════════════════════ */
+/* ── WHATSAPP ── */
 function waCompras() {
   const ini = document.getElementById('ini').value;
   const fim = document.getElementById('fim').value;
@@ -400,7 +389,10 @@ function waCompras() {
     const marc = cat.items.filter((_,ii) => checked.has(`${ci}-${ii}`));
     if (!marc.length) return;
     msg += `\n*${cat.cat}*\n`;
-    marc.forEach(it => { msg += `☐ ${it.n} — ${it.q}\n`; });
+    marc.forEach((it) => {
+      const ii = cat.items.indexOf(it);
+      msg += `☐ ${it.n} — ${getQty(ci,ii)}\n`;
+    });
   });
   if (!checked.size) msg += '\n_(Nenhum item marcado)_';
   window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
@@ -411,32 +403,33 @@ function waRefeicoes() {
   const fim = document.getElementById('rfim').value;
   const sem = ini && fim ? `Semana de ${ini} a ${fim}\n` : '';
   let msg = `🍽️ *Refeições da Semana — FaceMarket*\n${sem}\n`;
-  REFEICOES.forEach((sec, ri) => {
-    msg += `\n*${sec.ref}*\n`;
-    DIAS.forEach((dia, di) => {
+  DIAS.forEach((dia, di) => {
+    const temAlgo = REFEICOES.some((sec, ri) => sec.items.some((_,ii) => refSel[ri][ii].has(di)));
+    if (!temAlgo) return;
+    msg += `\n📅 *${dia}*\n`;
+    REFEICOES.forEach((sec, ri) => {
       const itens = sec.items.filter((_,ii) => refSel[ri][ii].has(di));
       if (!itens.length) return;
-      msg += `\n_${dia}:_\n`;
-      itens.forEach(it => { msg += `• ${it}\n`; });
+      msg += `${sec.ref}: ${itens.join(', ')}\n`;
     });
   });
   window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
 }
 
-/* ══════════════════════════════════
-   TABS
-══════════════════════════════════ */
+/* ── TABS ── */
 function showTab(tab, btn) {
-  document.getElementById('tab-compras').style.display = tab==='compras' ? '' : 'none';
-  document.getElementById('tab-refeicoes').style.display = tab==='refeicoes' ? '' : 'none';
-  document.getElementById('abar-compras').style.display = tab==='compras' ? '' : 'none';
-  document.getElementById('abar-refeicoes').style.display = tab==='refeicoes' ? '' : 'none';
+  document.getElementById('tab-compras').style.display    = tab==='compras'    ? '' : 'none';
+  document.getElementById('tab-refeicoes').style.display  = tab==='refeicoes'  ? '' : 'none';
+  document.getElementById('abar-compras').style.display   = tab==='compras'    ? '' : 'none';
+  document.getElementById('abar-refeicoes').style.display = tab==='refeicoes'  ? '' : 'none';
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab')[tab==='compras'?0:1].classList.add('active');
+  if (tab==='compras') renderCompras();
 }
 
 /* INIT */
 renderCompras();
+renderDias();
 renderRefeicoes();
 </script>
 </body>
