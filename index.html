@@ -14,11 +14,11 @@
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg2); color: var(--text); min-height: 100vh; padding-bottom: 84px; }
 
 nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position: sticky; top: 0; z-index: 100; }
-.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 16px; height: 52px; }
-.logo { display: flex; align-items: center; gap: 7px; font-size: 15px; font-weight: 700; color: var(--green); text-decoration: none; }
-.logo svg { width: 22px; height: 22px; }
-.tabs { display: flex; gap: 4px; }
-.tab { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: var(--text-muted); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 12px; height: 52px; }
+.logo { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: var(--green); text-decoration: none; flex-shrink: 0; }
+.logo svg { width: 20px; height: 20px; }
+.tabs { display: flex; gap: 3px; }
+.tab { padding: 5px 11px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: var(--text-muted); white-space: nowrap; }
 .tab.active { background: var(--green-light); color: var(--green); }
 
 .hcard { background: var(--green); border-radius: var(--r); padding: 16px; color: #fff; margin-bottom: 14px; }
@@ -58,19 +58,12 @@ nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position:
 .btn-wa { background: #25D366; color: #fff; }
 .btn-pr { background: var(--green-light); color: var(--green); }
 
-/* REFEIÇÕES — barra de dias única e fixa */
-.dias-fixos {
-  background: var(--bg);
-  border-radius: var(--r);
-  border: 0.5px solid var(--border);
-  padding: 12px 14px;
-  margin-bottom: 14px;
-}
+/* REFEIÇÕES */
+.dias-fixos { background: var(--bg); border-radius: var(--r); border: 0.5px solid var(--border); padding: 12px 14px; margin-bottom: 14px; }
 .dias-fixos p { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 10px; }
 .dias-bar { display: flex; gap: 6px; }
 .dia-btn { flex: 1; padding: 8px 4px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: 1px solid var(--border); background: var(--bg2); color: var(--text-muted); text-align: center; }
 .dia-btn.sel { background: var(--green); color: #fff; border-color: var(--green); }
-
 .ref-section { margin-bottom: 12px; }
 .ref-section-hdr { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--green); color: #fff; border-radius: 8px 8px 0 0; }
 .ref-section-hdr h2 { font-size: 14px; font-weight: 700; }
@@ -81,16 +74,40 @@ nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position:
 .ref-item:active { background: var(--bg2); }
 .dias-pills { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 3px; }
 .dia-pill { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 8px; background: var(--green-light); color: var(--green); }
-
 .gerar-btn { width: 100%; padding: 14px; background: var(--green); color: #fff; border: none; border-radius: var(--r); font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 14px; }
 .gerar-btn:active { opacity: 0.85; }
 
+/* ── AGENDA ── */
+.agenda-wrap { overflow-x: auto; border-radius: var(--r); border: 0.5px solid var(--border); background: var(--bg); margin-bottom: 14px; }
+.agenda-table { width: 100%; border-collapse: collapse; min-width: 480px; }
+.agenda-table th { background: var(--green); color: #fff; font-size: 12px; font-weight: 700; padding: 9px 6px; text-align: center; border-right: 0.5px solid rgba(255,255,255,0.2); }
+.agenda-table th:first-child { text-align: left; padding-left: 12px; width: 90px; border-right: 0.5px solid rgba(255,255,255,0.3); }
+.agenda-table td { border-bottom: 0.5px solid var(--border); border-right: 0.5px solid var(--border); padding: 7px 6px; vertical-align: top; font-size: 11px; min-width: 70px; }
+.agenda-table td:first-child { font-size: 12px; font-weight: 700; color: var(--text-muted); background: var(--bg2); padding-left: 12px; white-space: nowrap; }
+.agenda-table tr:last-child td { border-bottom: none; }
+.agenda-item { background: var(--green-light); color: var(--green); border-radius: 4px; padding: 2px 5px; margin: 2px 0; font-size: 10px; font-weight: 600; line-height: 1.4; display: block; }
+.agenda-empty { color: var(--border); font-size: 11px; text-align: center; padding: 4px 0; }
+
+/* PRINT */
 @media print {
   nav, .abar, .btn-clr, .week-row input, .gerar-btn, .dias-fixos { display: none !important; }
   body { background: #fff; padding: 0; }
+
+  /* Compras — só itens marcados */
+  .item-row:not(.chk) { display: none !important; }
   .item-row.chk { opacity: 1; }
-  .item-row.chk .iname { text-decoration: none; }
-  .iqty-input { border: none; background: transparent; }
+  .item-row.chk .iname { text-decoration: none; font-weight: 600; }
+  .icheck { border: 1.5px solid #3B6D11 !important; background: #fff !important; position: relative; }
+  .item-row.chk .icheck::after { content: "✓"; position: absolute; font-size: 13px; font-weight: 700; color: #3B6D11; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  .item-row.chk .icheck svg { display: none !important; }
+  .iqty-input { border: none; background: transparent; font-weight: 600; color: #2C2C2A; }
+  .cat-block:not(:has(.item-row.chk)) { display: none !important; }
+
+  /* Agenda — imprime bem */
+  .agenda-wrap { overflow: visible; border: 1px solid #ccc; }
+  .agenda-table { min-width: 100%; }
+  .agenda-table th { background: #3B6D11 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .agenda-item { background: #EAF3DE !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
 </style>
 </head>
@@ -107,6 +124,7 @@ nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position:
     <div class="tabs">
       <button class="tab active" onclick="showTab('compras',this)">Compras</button>
       <button class="tab" onclick="showTab('refeicoes',this)">Refeições</button>
+      <button class="tab" onclick="showTab('agenda',this)">Agenda</button>
     </div>
   </div>
 </nav>
@@ -144,19 +162,37 @@ nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position:
       <input type="text" id="rfim" placeholder="dd/mm" maxlength="5">
     </div>
   </div>
-
-  <!-- BARRA DE DIAS ÚNICA -->
   <div class="dias-fixos">
     <p>Selecione o dia</p>
     <div class="dias-bar" id="dias-bar"></div>
   </div>
-
   <button class="gerar-btn" onclick="gerarListaDeRefeicoes()">📋 Gerar lista de compras das refeições</button>
   <div id="ref-container"></div>
 </div>
 
+<!-- TAB AGENDA -->
+<div id="tab-agenda" style="display:none">
+  <div class="hcard">
+    <h1>Agenda da Semana</h1>
+    <p>Visão geral de todas as refeições por dia</p>
+    <div class="week-row">
+      <label>Semana de</label>
+      <input type="text" id="aini" placeholder="dd/mm" maxlength="5">
+      <label>a</label>
+      <input type="text" id="afim" placeholder="dd/mm" maxlength="5">
+    </div>
+  </div>
+  <div class="agenda-wrap">
+    <table class="agenda-table" id="agenda-table">
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
 </main>
 
+<!-- ACTION BAR COMPRAS -->
 <div class="abar" id="abar-compras">
   <button class="btn btn-pr" onclick="window.print()">
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
@@ -168,12 +204,25 @@ nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position:
   </button>
 </div>
 
+<!-- ACTION BAR REFEIÇÕES -->
 <div class="abar" id="abar-refeicoes" style="display:none">
   <button class="btn btn-pr" onclick="window.print()">
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
     Imprimir
   </button>
   <button class="btn btn-wa" onclick="waRefeicoes()">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.524 5.847L0 24l6.306-1.505A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.007-1.369l-.36-.214-3.732.891.934-3.617-.234-.372A9.818 9.818 0 0 1 2.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+    WhatsApp
+  </button>
+</div>
+
+<!-- ACTION BAR AGENDA -->
+<div class="abar" id="abar-agenda" style="display:none">
+  <button class="btn btn-pr" onclick="window.print()">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Imprimir
+  </button>
+  <button class="btn btn-wa" onclick="waAgenda()">
     <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.524 5.847L0 24l6.306-1.505A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.007-1.369l-.36-.214-3.732.891.934-3.617-.234-.372A9.818 9.818 0 0 1 2.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
     WhatsApp
   </button>
@@ -265,9 +314,8 @@ const REFEICOES = [
 
 const checked = new Set();
 const qtys = {};
-// refSel[ri][ii] = Set de dias marcados
 const refSel = REFEICOES.map(r => r.items.map(() => new Set()));
-let diaAtivo = 0; // dia único compartilhado por todas as refeições
+let diaAtivo = 0;
 
 function getQty(ci, ii) {
   const k = `${ci}-${ii}`;
@@ -291,10 +339,8 @@ function renderCompras() {
       const row = document.createElement('div');
       row.className = 'item-row' + (isChk ? ' chk' : '');
       row.innerHTML = `
-        <div class="icheck" data-k="${k}">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="iname" data-k="${k}">${item.n}</div>
+        <div class="icheck"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="iname">${item.n}</div>
         <input class="iqty-input" type="text" value="${getQty(ci,ii)}" placeholder="qtd">
       `;
       row.querySelector('.icheck').onclick = () => toggle(k);
@@ -309,11 +355,7 @@ function renderCompras() {
   document.getElementById('ct').textContent = total;
 }
 
-function toggle(k) {
-  checked.has(k) ? checked.delete(k) : checked.add(k);
-  renderCompras();
-}
-
+function toggle(k) { checked.has(k) ? checked.delete(k) : checked.add(k); renderCompras(); }
 function clearAll() {
   if (!checked.size) return;
   if (confirm('Limpar todos os itens marcados?')) { checked.clear(); renderCompras(); }
@@ -353,7 +395,7 @@ function renderRefeicoes() {
           <div class="iname">${item}</div>
           ${pillsHtml ? `<div class="dias-pills">${pillsHtml}</div>` : ''}
         </div>`;
-      row.onclick = () => { sel.has(diaAtivo) ? sel.delete(diaAtivo) : sel.add(diaAtivo); renderRefeicoes(); };
+      row.onclick = () => { sel.has(diaAtivo) ? sel.delete(diaAtivo) : sel.add(diaAtivo); renderRefeicoes(); renderAgenda(); };
       itensDiv.appendChild(row);
     });
     blk.appendChild(itensDiv);
@@ -364,9 +406,7 @@ function renderRefeicoes() {
 function gerarListaDeRefeicoes() {
   const itensNecessarios = new Set();
   REFEICOES.forEach((sec, ri) => {
-    sec.items.forEach((item, ii) => {
-      if (refSel[ri][ii].size > 0) itensNecessarios.add(item.toLowerCase());
-    });
+    sec.items.forEach((item, ii) => { if (refSel[ri][ii].size > 0) itensNecessarios.add(item.toLowerCase()); });
   });
   if (!itensNecessarios.size) { alert('Marque pelo menos um item nas refeições primeiro.'); return; }
   let marcados = 0;
@@ -379,6 +419,46 @@ function gerarListaDeRefeicoes() {
   alert(`${marcados} itens adicionados à lista de compras!`);
 }
 
+/* ── AGENDA ── */
+function renderAgenda() {
+  const thead = document.querySelector('#agenda-table thead');
+  const tbody = document.querySelector('#agenda-table tbody');
+
+  // Cabeçalho: Refeição + dias
+  thead.innerHTML = `<tr>
+    <th>Refeição</th>
+    ${DIAS.map(d => `<th>${d}</th>`).join('')}
+  </tr>`;
+
+  // Linhas: uma por refeição
+  tbody.innerHTML = '';
+  REFEICOES.forEach((sec, ri) => {
+    const tr = document.createElement('tr');
+    // Célula do nome da refeição
+    const tdNome = document.createElement('td');
+    tdNome.textContent = sec.ref;
+    tr.appendChild(tdNome);
+
+    // Células dos dias
+    DIAS.forEach((_, di) => {
+      const td = document.createElement('td');
+      const itens = sec.items.filter((_,ii) => refSel[ri][ii].has(di));
+      if (itens.length) {
+        itens.forEach(item => {
+          const span = document.createElement('span');
+          span.className = 'agenda-item';
+          span.textContent = item;
+          td.appendChild(span);
+        });
+      } else {
+        td.innerHTML = '<span class="agenda-empty">—</span>';
+      }
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+}
+
 /* ── WHATSAPP ── */
 function waCompras() {
   const ini = document.getElementById('ini').value;
@@ -389,10 +469,7 @@ function waCompras() {
     const marc = cat.items.filter((_,ii) => checked.has(`${ci}-${ii}`));
     if (!marc.length) return;
     msg += `\n*${cat.cat}*\n`;
-    marc.forEach((it) => {
-      const ii = cat.items.indexOf(it);
-      msg += `☐ ${it.n} — ${getQty(ci,ii)}\n`;
-    });
+    marc.forEach(it => { const ii = cat.items.indexOf(it); msg += `☐ ${it.n} — ${getQty(ci,ii)}\n`; });
   });
   if (!checked.size) msg += '\n_(Nenhum item marcado)_';
   window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
@@ -416,21 +493,41 @@ function waRefeicoes() {
   window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
 }
 
+function waAgenda() {
+  const ini = document.getElementById('aini').value;
+  const fim = document.getElementById('afim').value;
+  const sem = ini && fim ? `Semana de ${ini} a ${fim}\n` : '';
+  let msg = `📅 *Agenda da Semana — FaceMarket*\n${sem}\n`;
+  DIAS.forEach((dia, di) => {
+    const temAlgo = REFEICOES.some((sec, ri) => sec.items.some((_,ii) => refSel[ri][ii].has(di)));
+    if (!temAlgo) return;
+    msg += `\n*${dia}*\n`;
+    REFEICOES.forEach((sec, ri) => {
+      const itens = sec.items.filter((_,ii) => refSel[ri][ii].has(di));
+      if (!itens.length) return;
+      msg += `${sec.ref}: ${itens.join(', ')}\n`;
+    });
+  });
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+
 /* ── TABS ── */
 function showTab(tab, btn) {
-  document.getElementById('tab-compras').style.display    = tab==='compras'    ? '' : 'none';
-  document.getElementById('tab-refeicoes').style.display  = tab==='refeicoes'  ? '' : 'none';
-  document.getElementById('abar-compras').style.display   = tab==='compras'    ? '' : 'none';
-  document.getElementById('abar-refeicoes').style.display = tab==='refeicoes'  ? '' : 'none';
+  ['compras','refeicoes','agenda'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = t===tab ? '' : 'none';
+    document.getElementById('abar-'+t).style.display = t===tab ? '' : 'none';
+  });
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab')[tab==='compras'?0:1].classList.add('active');
+  btn.classList.add('active');
   if (tab==='compras') renderCompras();
+  if (tab==='agenda') renderAgenda();
 }
 
 /* INIT */
 renderCompras();
 renderDias();
 renderRefeicoes();
+renderAgenda();
 </script>
 </body>
 </html>
