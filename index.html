@@ -93,6 +93,15 @@ nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position:
   nav, .abar, .btn-clr, .week-row input, .gerar-btn, .dias-fixos { display: none !important; }
   body { background: #fff; padding: 0; }
 
+  /* Refeições — só itens marcados na impressão */
+  #tab-refeicoes .ref-item:not([data-marcado="1"]) { display: none !important; }
+  #tab-refeicoes .ref-section-hdr .ref-count { display: none; }
+  #tab-refeicoes .dias-pills { display: none; }
+  #tab-refeicoes .ref-item[data-marcado="1"] .icheck { border: 1.5px solid #3B6D11 !important; background: #fff !important; position: relative; }
+  #tab-refeicoes .ref-item[data-marcado="1"] .icheck::after { content: "✓"; position: absolute; font-size: 13px; font-weight: 700; color: #3B6D11; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  #tab-refeicoes .ref-item[data-marcado="1"] .icheck svg { display: none !important; }
+  #tab-refeicoes .ref-section:not(:has([data-marcado="1"])) { display: none !important; }
+
   /* Compras — só itens marcados */
   .item-row:not(.chk) { display: none !important; }
   .item-row.chk { opacity: 1; }
@@ -386,7 +395,9 @@ function renderRefeicoes() {
       const sel = refSel[ri][ii];
       const marcado = sel.has(diaAtivo);
       const pillsHtml = [...sel].sort((a,b)=>a-b).map(di => `<span class="dia-pill">${DIAS[di]}</span>`).join('');
+      const temQualquerDia = [...Array(6).keys()].some(di => sel.has(di));
       const row = document.createElement('div'); row.className = 'ref-item';
+      row.dataset.marcado = temQualquerDia ? '1' : '0';
       row.innerHTML = `
         <div class="icheck" style="${marcado ? 'background:var(--green);border-color:var(--green)' : ''}">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:${marcado?'block':'none'}"><polyline points="20 6 9 17 4 12"/></svg>
@@ -479,17 +490,16 @@ function waRefeicoes() {
   const ini = document.getElementById('rini').value;
   const fim = document.getElementById('rfim').value;
   const sem = ini && fim ? `Semana de ${ini} a ${fim}\n` : '';
-  let msg = `🍽️ *Refeições da Semana — FaceMarket*\n${sem}\n`;
-  DIAS.forEach((dia, di) => {
-    const temAlgo = REFEICOES.some((sec, ri) => sec.items.some((_,ii) => refSel[ri][ii].has(di)));
-    if (!temAlgo) return;
-    msg += `\n📅 *${dia}*\n`;
-    REFEICOES.forEach((sec, ri) => {
-      const itens = sec.items.filter((_,ii) => refSel[ri][ii].has(di));
-      if (!itens.length) return;
-      msg += `${sec.ref}: ${itens.join(', ')}\n`;
-    });
+  const itensUnicos = new Set();
+  REFEICOES.forEach((sec, ri) => {
+    sec.items.forEach((item, ii) => { if (refSel[ri][ii].size > 0) itensUnicos.add(item); });
   });
+  if (!itensUnicos.size) {
+    window.open('https://wa.me/?text=' + encodeURIComponent('Nenhum item marcado nas refeicoes.'), '_blank');
+    return;
+  }
+  let msg = `🛒 *Lista de Compras das Refeições — FaceMarket*\n${sem}\n`;
+  itensUnicos.forEach(item => { msg += `☐ ${item}\n`; });
   window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
 }
 
