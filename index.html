@@ -14,9 +14,14 @@
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg2); color: var(--text); min-height: 100vh; padding-bottom: 84px; }
 
 nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position: sticky; top: 0; z-index: 100; }
-.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 12px; height: 52px; }
-.logo { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: var(--green); text-decoration: none; flex-shrink: 0; }
-.logo svg { width: 20px; height: 20px; }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 12px; height: 62px; }
+.logo { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
+.logo-icon { width: 36px; height: 36px; flex-shrink: 0; }
+.logo-text { display: flex; flex-direction: column; line-height: 1; }
+.logo-name { font-size: 16px; font-weight: 800; letter-spacing: -0.3px; }
+.logo-name span:first-child { color: #1B3A6B; }
+.logo-name span:last-child { color: #3B6D11; }
+.logo-sub { font-size: 7.5px; font-weight: 500; color: #5F5E5A; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.3px; max-width: 180px; line-height: 1.3; }
 .tabs { display: flex; gap: 3px; }
 .tab { padding: 5px 11px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: var(--text-muted); white-space: nowrap; }
 .tab.active { background: var(--green-light); color: var(--green); }
@@ -125,10 +130,23 @@ nav { background: var(--bg); border-bottom: 0.5px solid var(--border); position:
 <nav>
   <div class="nav-inner">
     <a class="logo" href="#">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M2 3h2l3.5 11h9L20 6H6"/><circle cx="9" cy="20" r="1.5" fill="currentColor" stroke="none"/><circle cx="17" cy="20" r="1.5" fill="currentColor" stroke="none"/>
+      <svg class="logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Carrinho -->
+        <path d="M4 6h4l6 20h18l4-14H10" stroke="#1B3A6B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="17" cy="32" r="2.5" fill="#1B3A6B"/>
+        <circle cx="29" cy="32" r="2.5" fill="#1B3A6B"/>
+        <!-- Lupa -->
+        <circle cx="31" cy="16" r="7" stroke="#1B3A6B" stroke-width="2" fill="none"/>
+        <line x1="36" y1="21" x2="41" y2="26" stroke="#1B3A6B" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Barras gráfico dentro da lupa -->
+        <rect x="26" y="17" width="2.5" height="4" rx="0.5" fill="#3B6D11"/>
+        <rect x="29.5" y="14" width="2.5" height="7" rx="0.5" fill="#3B6D11"/>
+        <rect x="33" y="15.5" width="2.5" height="5.5" rx="0.5" fill="#3B6D11"/>
       </svg>
-      FaceMarket
+      <div class="logo-text">
+        <div class="logo-name"><span>Face</span><span>Market</span></div>
+        <div class="logo-sub">Sua lista de compras e as refeições da semana na palma da sua mão</div>
+      </div>
     </a>
     <div class="tabs">
       <button class="tab active" onclick="showTab('compras',this)">Compras</button>
